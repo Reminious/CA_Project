@@ -8,7 +8,7 @@
     var userid = ViewData["UserId"];
     var goods = (List<Good>)ViewData["goods"];
 }
-
+<link href="@Url.Content("~/css/bootstrap.css")" rel="stylesheet">
 <head>
     <style>
         body {
@@ -44,7 +44,7 @@
         .add-button {
             display: block;
             width: 100px;
-            margin-left: 0px auto;
+            align: center;
             padding: 10px;
             background-color: #007bff;
             color: #fff;
@@ -97,38 +97,42 @@
         <input type="button" name="input_text" id="input_text" class="btn">
     </form>
 </div>
+
+
+
 <body>
-    <table>
-        <thead>
-            <tr >
-                <th>Image</th>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Introduction</th>
-                <th>Operation</th>
-            </tr>
-        </thead>
-        <tbody> 
-            @foreach (Good item in goods)/*this is an example src here, more images needs to be added in our database*/
-            {  
-                       
-                <tr> 
-                        <td>
-                        <img class="image" src=@item.Image>
-                        </td>
-                   <td>@item.Name</td>
-                   <td>@item.Price</td>
-                   <td>@item.Intro</td>
-                   <td>
-                            <form asp-action="AddToCart" method="post">
+    <div class="row row-cols-1 row-cols-md-3 g-4" style="margin-left:30px;margin-right:30px;margin-top:30px">
+        @foreach (Good item in goods)
+        {
+            <div class="col">
+                <div class="card h-100">
+                    <img src=@item.Image class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Name</h5>
+                        <p class="card-text">@item.Intro</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">
+                            <form  method="post" asp-action="AddToCart">
                                 <input type="hidden" id="@item.Name" name="Name" value="@item.Name">
                                 <input type="hidden" id="@item.ProductId" name="ProductId" value="@item.ProductId">
                                 <input type="submit" class="add-button" id="button" value="Add to cart">
+                                @if (TempData["Message"] != null)
+                                {
+                                    <script type="text/javascript">
+                                        window.onload = function () {
+                                            alert("@TempData["Message"]");
+                                        };
+                                    </script>
+                                }
                             </form>
-                    </td>
-                </tr>                                      
-              }
+                        </small>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 
-        </tbody>
-    </table>
+
+
 </body>

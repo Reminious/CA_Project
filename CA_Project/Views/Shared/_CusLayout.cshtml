@@ -85,6 +85,8 @@
                 {
                     <li><a href="detail.html">Current User:  @HttpContextAccessor.HttpContext.Session.GetString("Nickname")</a></li>
                     <li><a href="/Login/Logout">Logout</a></li>
+                    <li><a href="detail.html">MyCart</a></li>
+                    <li><a href="detail.html">Records</a></li>
                 }else{
                     <li><a href="/Login/Index">Login</a></li>
                 }
@@ -94,7 +96,7 @@
     </header>
 
     <!-- middle area -->
-    @RenderBody();
+    @RenderBody()
     <footer>
         <p align="center">All rights reserved © 2023 GrannyCare</p>
     </footer>

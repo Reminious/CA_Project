@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\a.homework\\CA_Project-main\\CA_Project\\CA_Project.csproj": {}
+    "C:\\Users\\94079\\Documents\\GitHub\\CA_Project\\CA_Project\\CA_Project.csproj": {}
   },
   "projects": {
-    "D:\\a.homework\\CA_Project-main\\CA_Project\\CA_Project.csproj": {
+    "C:\\Users\\94079\\Documents\\GitHub\\CA_Project\\CA_Project\\CA_Project.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\a.homework\\CA_Project-main\\CA_Project\\CA_Project.csproj",
+        "projectUniqueName": "C:\\Users\\94079\\Documents\\GitHub\\CA_Project\\CA_Project\\CA_Project.csproj",
         "projectName": "CA_Project",
-        "projectPath": "D:\\a.homework\\CA_Project-main\\CA_Project\\CA_Project.csproj",
+        "projectPath": "C:\\Users\\94079\\Documents\\GitHub\\CA_Project\\CA_Project\\CA_Project.csproj",
         "packagesPath": "C:\\Users\\94079\\.nuget\\packages\\",
-        "outputPath": "D:\\a.homework\\CA_Project-main\\CA_Project\\obj\\",
+        "outputPath": "C:\\Users\\94079\\Documents\\GitHub\\CA_Project\\CA_Project\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\94079\\AppData\\Roaming\\NuGet\\NuGet.Config",
