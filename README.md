@@ -1,5 +1,5 @@
 REMENBER TO CHANGE YOUR SETTINGS OF DATABASE：
-In appsetting.json, change data source to your servername. (ex. "Datasource=ddd" to "Datasource=yourServerName")
+In appsetting.json, change data source to your servername shown in SMSS. (ex. "Datasource=ddd" to "Datasource=yourServerName")
 In \Data\Data.cs, change CONNECTION_STRING , the server should be your servername.
 In Models\ShopContext.cs, comment out line 26-28, your code should be looking like this:
       /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
