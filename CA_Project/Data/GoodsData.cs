@@ -60,7 +60,7 @@ namespace CA_Project.Data
             return goods;
         }
 
-        public static void AddToCart(int ProductId, int? UserId,ShopContext db)
+        public static void AddToCart(int ProductId, int? UserId,ShopContext db,int AddAmount)
         {
 
             using (SqlConnection conn = new SqlConnection(Data.CONNECTION_STRING))
@@ -75,7 +75,7 @@ namespace CA_Project.Data
                     string sql = "UPDATE Cart SET Amount=@Amount WHERE ProductID=@ProductId AND UserID=@UserId";
                     SqlCommand updateCommand = new SqlCommand(sql, conn);
 
-                    int NewAmount = findcart.Amount+1;
+                    int NewAmount = findcart.Amount+AddAmount;
                     updateCommand.Parameters.AddWithValue("@Amount", NewAmount); 
                     updateCommand.Parameters.AddWithValue("@ProductID", ProductId); 
                     updateCommand.Parameters.AddWithValue("@UserID", UserId);

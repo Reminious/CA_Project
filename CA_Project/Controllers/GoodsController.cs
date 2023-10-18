@@ -24,7 +24,7 @@ namespace CA_Project.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddToCart(int ProductId, string Name)
+        public IActionResult AddToCart(int ProductId, string Name, int AddAmount)
         {
             int? userId = _HttpContextAccessor.HttpContext.Session.GetInt32("UserID");
             ViewData["UserId"] = userId;
@@ -37,7 +37,7 @@ namespace CA_Project.Controllers
             {
                 TempData["Message"] = "Successfully added";
                 ViewData["Name"] = Name;
-                GoodsData.AddToCart(ProductId, userId, db);
+                GoodsData.AddToCart(ProductId, userId, db, AddAmount);
                 return RedirectToAction("Index");
             }
 
