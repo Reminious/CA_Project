@@ -68,7 +68,7 @@ namespace CA_Project.Data
                 conn.Open();
                 //In our database, try to find an item that already exists.
                 Cart? findcart = db.Carts.FirstOrDefault(x => x.ProductId == ProductId&&x.UserId== UserId);
-                //if this user already has the product in cart, amount++
+                //if this user already has the product in cart, amount+=AddAmount
                 if (findcart != null)
                 {
                     // Use parameterized queries to prevent SQL injection
@@ -91,7 +91,7 @@ namespace CA_Project.Data
                     // Use parameterized queries to prevent SQL injection
                     insertCommand.Parameters.AddWithValue("@ProductId", ProductId); //Replace the  "@ProductId" in sql with value
                     insertCommand.Parameters.AddWithValue("@UserId", UserId); // same as above
-                    insertCommand.Parameters.AddWithValue("@Amount", 1);//same as above
+                    insertCommand.Parameters.AddWithValue("@Amount", AddAmount);//same as above
                     int rowsAffected = insertCommand.ExecuteNonQuery();//"ExecuteNonQuery()" is a coommon method to operate database,
                                                                         //usually is used for "insert","update","delete".
 
