@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\94079\\Documents\\GitHub\\CA_Project\\CA_Project\\CA_Project.csproj": {}
+    "C:\\Users\\XX\\Desktop\\NB\\CA_Project\\CA_Project\\CA_Project.csproj": {}
   },
   "projects": {
-    "C:\\Users\\94079\\Documents\\GitHub\\CA_Project\\CA_Project\\CA_Project.csproj": {
+    "C:\\Users\\XX\\Desktop\\NB\\CA_Project\\CA_Project\\CA_Project.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\94079\\Documents\\GitHub\\CA_Project\\CA_Project\\CA_Project.csproj",
+        "projectUniqueName": "C:\\Users\\XX\\Desktop\\NB\\CA_Project\\CA_Project\\CA_Project.csproj",
         "projectName": "CA_Project",
-        "projectPath": "C:\\Users\\94079\\Documents\\GitHub\\CA_Project\\CA_Project\\CA_Project.csproj",
-        "packagesPath": "C:\\Users\\94079\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\94079\\Documents\\GitHub\\CA_Project\\CA_Project\\obj\\",
+        "projectPath": "C:\\Users\\XX\\Desktop\\NB\\CA_Project\\CA_Project\\CA_Project.csproj",
+        "packagesPath": "C:\\Users\\XX\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\XX\\Desktop\\NB\\CA_Project\\CA_Project\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "D:\\Programs\\VStool\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\94079\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\XX\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -55,6 +60,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[7.0.11, )"
+            },
+            "NuGet.Packaging": {
+              "target": "Package",
+              "version": "[6.7.0, )"
             }
           },
           "imports": [
@@ -76,7 +85,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
         }
       }
     }

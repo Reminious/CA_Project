@@ -2,6 +2,6 @@
 {
     public class Data
     {
-        public static string CONNECTION_STRING = @"Server=MSI\SQLEXPRESS;Database=ShopDB;Integrated Security=true;encrypt=false";
+        public static string CONNECTION_STRING = @"Server=DESKTOP-H7IUJHT;Database=ShopDB;Integrated Security=true;encrypt=false";
     }
 }
