@@ -115,32 +115,30 @@
     </thead>
     <tbody>
         @{
-            var previousItem = string.Empty;
+            var groupedItems = Model.GroupBy(item => new { item.ProductId, item.Time });
         }
-        @foreach (var item in Model)
+
+        @foreach (var group in groupedItems)
         {
-            if (item.ProductId.ToString() != previousItem)
-            {
-                <tr>
-                    <td>
-                        @ViewData[item.ProductId.ToString()]
-                    </td>
-                    <td>
-                        @item.Time
-                    </td>
+            var item = group.First(); // Take the first item in the group
 
-                    <td>
-                        <select style="height:30px;width:200px;font-size:20px">
-                            @foreach (var activationCode in Model.Where(m => m.ProductId == item.ProductId).Select(m => m.ActCode).Distinct())
-                            {
-                                <option value="@activationCode">@activationCode</option>
-                            }
-                        </select>
-                    </td>
+            <tr>
+                <td>
+                    @ViewData[item.ProductId.ToString()]
+                </td>
+                <td>
+                    @item.Time
+                </td>
 
-                </tr>
-            }
-            previousItem = item.ProductId.ToString();
+                <td>
+                    <select style="height:30px;width:200px;font-size:20px">
+                        @foreach (var activationCode in group.Select(m => m.ActCode).Distinct())
+                        {
+                            <option value="@activationCode">@activationCode</option>
+                        }
+                    </select>
+                </td>
+            </tr>
         }
     </tbody>
 </table>

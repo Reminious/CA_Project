@@ -34,7 +34,12 @@ namespace CA_Project.Controllers
                         Time = time
                     };
                     string Act = Guid.NewGuid().ToString();
-                    record.ItemId = i;
+                    int useruser = (int)_HttpContextAccessor.HttpContext.Session.GetInt32("UserID");
+                    var query = _context.PurchaseRecords
+                        .Where(pr => pr.UserId == useruser && pr.ProductId == x.ProductId);
+
+                    int maxItemId = query.Any() ? query.Max(pr => pr.ItemId) : 0;
+                    record.ItemId = maxItemId + 1+i;
                     record.ActCode = Act;
                     _context.PurchaseRecords.Add(record);
                 }                                           

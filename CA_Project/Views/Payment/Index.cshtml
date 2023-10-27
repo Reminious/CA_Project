@@ -28,18 +28,17 @@ img
 <br />
 <br />
 <p align="center">
-    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;->
-    <form method="post" asp-action="PayCart" asp-controller="Payment">
-        <button type="submit" class="btn btn-primary" id="Pay">
+    <form method="post" asp-action="PayCart" asp-controller="Payment" align="center">
+        <button type="submit" class="btn btn-primary" id="Pay" align="center">
             Click to Pay
         </button>
     </form>
 </p>
 
-@* <script>
+<script>
     const button = document.getElementById('Pay')
     button.addEventListener('click', function () {
         alert("You have successfully paid your order!");
         window.location.href = "/Goods/Index";
     })
-</script> *@
+</script>
