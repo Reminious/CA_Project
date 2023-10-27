@@ -50,7 +50,7 @@ namespace CA_Project.Controllers
             }
             else
             {          
-                return Content("Fail");
+                return RedirectToAction("Index");
             }
         }
         public IActionResult Logout()
