@@ -22,11 +22,16 @@ namespace CA_Project.Controllers
         public async Task<IActionResult> Index()
         {
             var shopContext = _context.PurchaseRecords.Include(p => p.Product).Include(p => p.User);
-            return View(await shopContext.ToListAsync());
+            var item = await shopContext.ToListAsync();
+            foreach(var x in item)
+            {
+                ViewData[x.ProductId.ToString()] = _context.Goods.Where(p => p.ProductId == x.ProductId).FirstOrDefault().Name;               
+            }
+            return View(item);
         }
 
-        // GET: PurchaseRecords/Details/5
-        public async Task<IActionResult> Details(int? id)
+    // GET: PurchaseRecords/Details/5
+    public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.PurchaseRecords == null)
             {

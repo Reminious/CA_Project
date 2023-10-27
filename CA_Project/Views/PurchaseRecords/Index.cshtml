@@ -3,7 +3,9 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_CusLayout.cshtml";
+    var Name = ViewData["name"];
 }
+<link href="@Url.Content("~/css/bootstrap.css")" rel="stylesheet">
 <br>
 <br>
 <head>
@@ -101,29 +103,44 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Product)
+               Product Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Time)
+                Time
             </th>
             <th>                
-                @Html.DisplayNameFor(model => model.ActCode)
+                Activatioin Code
             </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Product.ProductId)
-            </td>            
-            <td>
-                @Html.DisplayFor(modelItem => item.Time)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ActCode)
-            </td>
-        </tr>
-}
+        @{
+            var previousItem = string.Empty;
+        }
+        @foreach (var item in Model)
+        {
+            if (item.ProductId.ToString() != previousItem)
+            {
+                <tr>
+                    <td>
+                        @ViewData[item.ProductId.ToString()]
+                    </td>
+                    <td>
+                        @item.Time
+                    </td>
+
+                    <td>
+                        <select style="height:30px;width:200px;font-size:20px">
+                            @foreach (var activationCode in Model.Where(m => m.ProductId == item.ProductId).Select(m => m.ActCode).Distinct())
+                            {
+                                <option value="@activationCode">@activationCode</option>
+                            }
+                        </select>
+                    </td>
+
+                </tr>
+            }
+            previousItem = item.ProductId.ToString();
+        }
     </tbody>
 </table>
