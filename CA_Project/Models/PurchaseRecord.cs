@@ -9,6 +9,8 @@ public partial class PurchaseRecord
 
     public int ProductId { get; set; }
 
+    public int Amount { get; set; }
+
     public string ItemId { get; set; } = null!;
 
     public string ActCode { get; set; } = null!;

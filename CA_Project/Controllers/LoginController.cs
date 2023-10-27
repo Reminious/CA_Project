@@ -21,7 +21,8 @@ namespace CA_Project.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpPost]//Use HttpPost to send info from client to server, whitch means here that the username and password we 
+        //enterd in our Login page will be send to our  Login Ccontroller.
         public IActionResult Login(string username, string password, int rememberMe)
         {
             User user = _context.Users.Where(p => p.UserName == username && p.Password == password).FirstOrDefault();
@@ -40,8 +41,10 @@ namespace CA_Project.Controllers
                     _HttpContextAccessor.HttpContext.Response.Cookies.Delete("username");
                     _HttpContextAccessor.HttpContext.Response.Cookies.Delete("password");
                 }
+
                 _HttpContextAccessor.HttpContext.Session.SetInt32("UserID",user.UserId);
                 _HttpContextAccessor.HttpContext.Session.SetString("Nickname", user.Nickname);
+
                 //use session to remember current user status
                 return Redirect("/");
             }

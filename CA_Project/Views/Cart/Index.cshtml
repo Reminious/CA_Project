@@ -1,0 +1,166 @@
+﻿@*
+
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "/Views/Shared/_CusLayout.cshtml";//using the customized layout,使用每一页长一样
+    ViewData["Title"] = "Cart Page";
+    var userid = ViewData["UserId"];
+    var carts = (List<Cart>)ViewData["carts"];
+
+    var total = (List<Total>)ViewData["result"];
+    // var cartgoods = (List<Good>)ViewData["cartgoods"];
+}
+@model List<Total>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .add-button {
+            display: block;
+            width: 100px;
+            margin-left: 0px auto;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+            .add-button:hover {
+                background-color: #0056b3;
+            }
+
+        /*here define the search*/
+        .search-body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+            width: 300px;
+            margin: 0 auto;
+        }
+
+        .search {
+            border: 2px solid #ccc;
+            margin: 0 auto;
+            border-radius: 25px;
+            display: flex;
+            overflow: hidden;
+            height: 50px;
+        }
+
+        .input {
+            height: 100%;
+            font-family: inherit;
+            font-size: inherit;
+            padding-inline-start: 25px;
+            border: none;
+            outline: none;
+        }
+
+        .image {
+            height: 200px;
+            width: 200px;
+        }
+
+        .ButtonContainer {
+            text-align: right;
+            color: aqua;
+        }
+    </style>
+</head>
+
+
+<h1>Total Items</h1>
+<br />
+<table>
+    <thead>
+        <tr>
+            <th>Product Name</th>
+            <th>Price</th>
+            <th>Total Price</th>
+            <th>Image</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@ViewData[item.Image]</td>
+                <td>@item.Price</td>
+                <td>@item.TotalPricePerProduct</td>
+                <td><img src="@item.Image" class="image" /></td>
+                <td>
+                    <form asp-action="AddMyCart" id="producIds" method="post">
+                        <input type="hidden" id="@item.ProductId" name="Name" value="@item.ProductId">
+                        <input type="hidden" id="@item.ProductId" name="ProductId" value="@item.ProductId">
+                        <input type="submit" class="add-button" id="buttonAdd" value="Add">
+                    </form>
+                </td>
+                <td><input type="hidden" name="Amount" value="@item.Amount">@item.Amount</td>
+                <td>
+                    <form asp-action="MinusMyCart" method="post">
+                        <input type="hidden" id="@item.ProductId" name="Name" value="@item.ProductId">
+                        <input type="hidden" id="@item.ProductId" name="ProductId" value="@item.ProductId">
+                        <input type="submit" class="add-button" id="buttonMinus" value="Minus">
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<h1>Total:@ViewData["TotalPriceSum"] </h1>
+<div class="ButtonContainer">
+    <button type="button" onclick="redirectToPayment()">PayNow</button>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function redirectToPayment() {
+        var productIds = [];
+        $('input[name="ProductId"]').each(function () {
+            var productIdValue = $(this).val();
+            productIds.push(productIdValue);
+        });
+        var Amount = [];
+        $('input[name="Amount"]').each(function () {
+            var AmountValue = $(this).val();
+            Amount.push(AmountValue);
+        });
+        var encodedProductId = encodeURIComponent(productIds);
+        var AmountProductId = encodeURIComponent(Amount);
+        console.log(productIds);
+        window.location.href = "/Payment/Index?productId=" + encodedProductId + "&amount=" + AmountProductId;
+    }
+</script>
+</Total>

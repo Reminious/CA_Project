@@ -1,0 +1,92 @@
+﻿@*
+
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "/Views/Shared/_CusLayout.cshtml";//using the customized layout,使用每一页长一样
+    ViewData["Title"] = "Goods Page";
+    var userid = ViewData["UserId"];
+    var goods = (List<Good>)ViewData["goods"];
+}
+<link href="@Url.Content("~/css/bootstrap.css")" rel="stylesheet">
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        /*here define the search*/
+        .search-body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+            width: 300px;
+            margin: 0 auto;
+        }
+
+        .search {
+            border: 2px solid #ccc;
+            margin: 0 auto;
+            border-radius: 25px;
+            display: flex;
+            overflow: hidden;
+            height: 50px;
+        }
+
+        .input {
+            height: 100%;
+            font-family: inherit;
+            font-size: inherit;
+            padding-inline-start: 25px;
+            border: none;
+            outline: none;
+        }
+    </style>
+</head>
+
+<div class="search-body">
+    <form class="input-group" asp-action="Search" method="post">
+        <input type="search" class="form-control" id="input" name="search" placeholder="Search Product" autocomplete="off">
+        <input type="submit" name="input_text" id="input_text" class="btn btn-outline-dark" value="Search">
+    </form>
+</div>
+
+
+
+<body>
+    <div class="row row-cols-1 row-cols-md-3 g-4" style="margin-left:30px;margin-right:30px;">
+        @foreach (Good item in goods)
+        {
+            <div class="col">
+                <div class="card h-100">
+                    <img src=@item.Image class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Name</h5>
+                        <p class="card-text">@item.Intro</p>
+                    </div>
+                    <div class="card-footer" style="text-align:center">
+                        <p class="card-text">
+                            <form method="post" asp-action="AddToCart">
+                                <input type="hidden" id="@item.Name" name="Name" value="@item.Name">
+                                <input type="hidden" id="@item.ProductId" name="ProductId" value="@item.ProductId">
+                                <input type="submit" class="btn btn-primary" id="button" value="Add to cart">
+                                <input style="text-align:center;height:35px;" class="col-sm-2" type="number" min="1" id="AddAmount" name="AddAmount" value="1">
+                                @if (TempData["Message"] != null)
+                                {
+                                    <script type="text/javascript">
+                                        window.onload = function () {
+                                            alert("@TempData["Message"]");
+                                        };
+                                    </script>
+                                }
+                            </form>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</body>

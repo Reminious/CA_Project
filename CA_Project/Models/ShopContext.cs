@@ -15,23 +15,36 @@ public partial class ShopContext : DbContext
     {
     }
 
+    public virtual DbSet<Cart> Carts { get; set; }
+
     public virtual DbSet<Good> Goods { get; set; }
 
     public virtual DbSet<PurchaseRecord> PurchaseRecords { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
-    /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+  /*  protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=ShopDB;Integrated Security=True;Encrypt=True;TrustServerCertificate=True;");*/
+        => optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS;Initial Catalog=ShopDB;Integrated Security=True;Encrypt=True;TrustServerCertificate=True;");*/
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Cart>(entity =>
+        {
+            entity.HasKey(e => new { e.ProductId, e.UserId }).HasName("PK__Cart__65744A27038DD668");
+
+            entity.ToTable("Cart");
+
+            entity.Property(e => e.ProductId).HasColumnName("ProductID");
+            entity.Property(e => e.UserId).HasColumnName("UserID");
+        });
+
         modelBuilder.Entity<Good>(entity =>
         {
             entity.HasKey(e => e.ProductId).HasName("PK_goods");
 
             entity.Property(e => e.ProductId).HasColumnName("ProductID");
+            entity.Property(e => e.Image).IsUnicode(false);
             entity.Property(e => e.Intro).HasColumnType("text");
             entity.Property(e => e.Name)
                 .HasMaxLength(50)

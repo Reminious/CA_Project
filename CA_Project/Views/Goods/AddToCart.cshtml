@@ -1,0 +1,20 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "/Views/Shared/_CusLayout.cshtml";//using the customized layout,使用每一页长一样
+    ViewData["Title"] = "Add To Cart";
+    var name = ViewData["name"];
+}
+
+<body>
+    @name successfully added to your cart!
+    <button id="return">Click me to return to Gallery</button>
+    <script type="text/javascript">
+        var button = document.getElementById('return');
+        button.addEventListener('click', function () {
+            window.location.href = "@Url.Action("Index", "Goods")";//return to the Gallery page
+        });
+    </script>
+</body>
+

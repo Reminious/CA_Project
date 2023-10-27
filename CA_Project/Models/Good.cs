@@ -15,5 +15,7 @@ public partial class Good
 
     public string? Intro { get; set; }
 
+    public string? Image { get; set; }
+
     public virtual ICollection<PurchaseRecord> PurchaseRecords { get; set; } = new List<PurchaseRecord>();
 }
