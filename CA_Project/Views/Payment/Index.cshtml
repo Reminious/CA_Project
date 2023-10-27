@@ -1,7 +1,9 @@
 ﻿
 @{
     ViewData["Title"] = "Index";
+    Layout = "/Views/Shared/_CusLayout.cshtml";
 }
+<link href="@Url.Content("~/css/bootstrap.css")" rel="stylesheet">
 <style>
 img
 {
@@ -9,25 +11,35 @@ img
  
     }
     </style>
-<h1>Select Your Payment</h1>
-<table>
-    <tr>
-<form action="" align="center"><table align="center">
-        <td width="33%"><img src="https://th.bing.com/th/id/R.76e9f1f4fb61a026bea7fd7962d20015?rik=86lb0cOH%2b7z46Q&riu=http%3a%2f%2fwww.kuaipng.com%2fUploads%2fpic%2fw%2f2018%2f08-16%2f45617%2fwater_45617_698_712.77_.png&ehk=uYkjcFxokHvsBeSjLoPvj7bGZnk8n%2bNhUPXsjmmJom4%3d&risl=&pid=ImgRaw&r=0" /> <br /><input type="radio" name="sex" value="male" id="1">WechatPay</td>
-        <td width="33%"><img src="https://th.bing.com/th/id/OIP.JS2gIO3kDZXEgFEQTLvldAAAAA?w=163&h=176&c=7&r=0&o=5&dpr=2&pid=1.7" /><br /> <input type="radio" name="sex" value="female" id="1">PayLah </td>
-        <td width="33%"><img src="https://th.bing.com/th/id/OIP.ul0dvIH73N_QOvvItrkjOgHaH5?pid=ImgDet&rs=1" /><br />   <input type="radio" name="sex" value=" nono" id="1">Alipay</td>
-            </table>
-        </form>
-
-    </tr>
-</table>
+<br>
+<h1 class="display-4" align="center">Select Your Payment</h1>
+<br>
+<div align="center">
+    <table>
+            <form>
+            
+                    <td width="40%"><img src="https://th.bing.com/th/id/R.76e9f1f4fb61a026bea7fd7962d20015?rik=86lb0cOH%2b7z46Q&riu=http%3a%2f%2fwww.kuaipng.com%2fUploads%2fpic%2fw%2f2018%2f08-16%2f45617%2fwater_45617_698_712.77_.png&ehk=uYkjcFxokHvsBeSjLoPvj7bGZnk8n%2bNhUPXsjmmJom4%3d&risl=&pid=ImgRaw&r=0" /> <br /><input type="radio" name="sex" value="male" id="1">WechatPay</td>
+                    <td width="40%"><img src="https://th.bing.com/th/id/OIP.JS2gIO3kDZXEgFEQTLvldAAAAA?w=163&h=176&c=7&r=0&o=5&dpr=2&pid=1.7" /><br /> <input type="radio" name="sex" value="female" id="1">PayLah </td>
+                    <td width="40%"><img src="https://th.bing.com/th/id/OIP.ul0dvIH73N_QOvvItrkjOgHaH5?pid=ImgDet&rs=1" /><br />   <input type="radio" name="sex" value=" nono" id="1">Alipay</td>
+  
+            </form>
+    </table>
+</div>
 <br />
-<br />>
-<button type="button" id="Pay">Click to Pay</button>
-<script>
+<br />
+<p align="center">
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;->
+    <form method="post" asp-action="PayCart" asp-controller="Payment">
+        <button type="submit" class="btn btn-primary" id="Pay">
+            Click to Pay
+        </button>
+    </form>
+</p>
+
+@* <script>
     const button = document.getElementById('Pay')
     button.addEventListener('click', function () {
         alert("You have successfully paid your order!");
         window.location.href = "/Goods/Index";
     })
-</script>
+</script> *@

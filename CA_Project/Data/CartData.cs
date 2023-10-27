@@ -45,7 +45,17 @@ namespace CA_Project.Data
                 return carts;
             }
         }
-
+        public static void DeleteCart(int UserId)
+        {
+            using (SqlConnection conn = new SqlConnection( Data.CONNECTION_STRING))
+            {
+                conn.Open();
+                string sql = @"DELETE from Cart WHERE UserID=" + UserId;
+                SqlCommand cmd=new SqlCommand(sql, conn);
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
+        }
         public static void AddMyCart(int ProductId, int? UserId, ShopContext db)
         {
 

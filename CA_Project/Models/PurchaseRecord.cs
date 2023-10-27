@@ -9,9 +9,11 @@ public partial class PurchaseRecord
 
     public int ProductId { get; set; }
 
-    public string ItemId { get; set; } = null!;
+    public int ItemId { get; set; }
 
     public string ActCode { get; set; } = null!;
+
+    public string Time { get; set; } = null!;
 
     public virtual Good Product { get; set; } = null!;
 

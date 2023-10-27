@@ -1,32 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\XX\\Desktop\\NB\\CA_Project\\CA_Project\\CA_Project.csproj": {}
+    "F:\\Users\\N\\Desktop\\CA_Project\\CA_Project\\CA_Project.csproj": {}
   },
   "projects": {
-    "C:\\Users\\XX\\Desktop\\NB\\CA_Project\\CA_Project\\CA_Project.csproj": {
+    "F:\\Users\\N\\Desktop\\CA_Project\\CA_Project\\CA_Project.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\XX\\Desktop\\NB\\CA_Project\\CA_Project\\CA_Project.csproj",
+        "projectUniqueName": "F:\\Users\\N\\Desktop\\CA_Project\\CA_Project\\CA_Project.csproj",
         "projectName": "CA_Project",
-        "projectPath": "C:\\Users\\XX\\Desktop\\NB\\CA_Project\\CA_Project\\CA_Project.csproj",
-        "packagesPath": "C:\\Users\\XX\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\XX\\Desktop\\NB\\CA_Project\\CA_Project\\obj\\",
+        "projectPath": "F:\\Users\\N\\Desktop\\CA_Project\\CA_Project\\CA_Project.csproj",
+        "packagesPath": "F:\\Users\\N\\.nuget\\packages\\",
+        "outputPath": "F:\\Users\\N\\Desktop\\CA_Project\\CA_Project\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "D:\\Programs\\VStool\\NuGetPackages"
+          "F:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\XX\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "F:\\Users\\N\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "F:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "F:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
+          "F:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "F:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -55,11 +55,19 @@
               "target": "Package",
               "version": "[7.0.11, )"
             },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[6.0.23, )"
+            },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
               "version": "[7.0.11, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[6.0.16, )"
             },
             "NuGet.Packaging": {
               "target": "Package",
@@ -85,7 +93,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "F:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
         }
       }
     }

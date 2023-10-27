@@ -22,16 +22,11 @@ public partial class ShopContext : DbContext
     public virtual DbSet<PurchaseRecord> PurchaseRecords { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
-
-  /*  protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS;Initial Catalog=ShopDB;Integrated Security=True;Encrypt=True;TrustServerCertificate=True;");*/
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Cart>(entity =>
         {
-            entity.HasKey(e => new { e.ProductId, e.UserId }).HasName("PK__Cart__65744A27038DD668");
+            entity.HasKey(e => new { e.ProductId, e.UserId }).HasName("PK__Cart__65744A27F34D13C5");
 
             entity.ToTable("Cart");
 
@@ -58,11 +53,11 @@ public partial class ShopContext : DbContext
 
             entity.Property(e => e.UserId).HasColumnName("UserID");
             entity.Property(e => e.ProductId).HasColumnName("ProductID");
-            entity.Property(e => e.ItemId)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("ItemID");
+            entity.Property(e => e.ItemId).HasColumnName("ItemID");
             entity.Property(e => e.ActCode)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Time)
                 .HasMaxLength(50)
                 .IsUnicode(false);
 
