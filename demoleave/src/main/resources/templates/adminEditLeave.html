@@ -34,17 +34,17 @@
 
             <div class="mb-3">
                 <label for="annualRemain" class="form-label">Annual Remain</label>
-                <input type="number" id="annualRemain" class="form-control" th:field="*{annualRemain}">
+                <input type="number" id="annualRemain" class="form-control" min="0" max="18" th:field="*{annualRemain}">
             </div>
 
             <div class="mb-3">
                 <label for="sickRemain" class="form-label">Sick Remain</label>
-                <input type="number" id="sickRemain" class="form-control" th:field="*{sickRemain}">
+                <input type="number" id="sickRemain" class="form-control" min="0" max="60" th:field="*{sickRemain}">
             </div>
 
             <div class="mb-3">
                 <label for="compensationRemain" class="form-label">Compensation Remain</label>
-                <input type="number" id="compensationRemain" class="form-control" th:field="*{compensationRemain}">
+                <input type="number" id="compensationRemain" class="form-control" min="0" th:field="*{compensationRemain}">
             </div>
 
             <button type="submit" class="btn btn-primary">Update</button>
