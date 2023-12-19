@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Leave Applications</title>
+    <script>
+        function confirmCancel() {
+            return confirm("Are you sure you want to cancel this application?");
+        }
+    </script>
+</head>
+<body>
+<h2>Leave Applications</h2>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Leave Type</th>
+        <th>Reason</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Status</th>
+        <th>Submit Date</th>
+        <th>Approver ID</th>
+        <th>Approver Name</th>
+        <th>Approve Date</th>
+        <th>Comment</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Iterate through the list of applications -->
+    <tr th:each="leaveApplication : ${leaveApplications}">
+        <td th:text="${leaveApplication.leaveType}"></td>
+        <td th:text="${leaveApplication.reason}"></td>
+        <td th:text="${leaveApplication.startDate}"></td>
+        <td th:text="${leaveApplication.endDate}"></td>
+        <td th:text="${leaveApplication.status}"></td>
+        <td th:text="${leaveApplication.submitDate}"></td>
+        <td th:text="${leaveApplication.approverID}"></td>
+        <td th:text="${leaveApplication.approverName}"></td>
+        <td th:text="${leaveApplication.approveDate}"></td>
+        <td th:text="${leaveApplication.comment}"></td>
+        <td th:if="${leaveApplication.status=='Approved'}">
+            <form th:action="@{'/'+ ${session.user.id} + '/History/cancel'}" method="post">
+                <input type="hidden" name="applicationId" th:value="${leaveApplication.id}" />
+                <button type="submit" onclick="return confirmCancel()">Cancel</button>
+            </form>
+        </td>
+        <td th:if="${leaveApplication.status=='Pending'}">
+            <form th:action="@{'/'+ ${session.user.id} + '/History/update'}" method="post">
+                <input type="hidden" name="applicationId" th:value="${leaveApplication.id}" />
+                <button type="submit">Update</button>
+            </form>
+            /
+            <form th:action="@{'/'+ ${session.user.id} + '/History/cancel'}" method="post">
+                <input type="hidden" name="applicationId" th:value="${leaveApplication.id}" />
+                <button type="submit" onclick="return confirmCancel()">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
