@@ -19,7 +19,6 @@
 
 * [ ] Login/Logout: almost completed, only one interceptor needed to be added.
 * [ ] Leave Application Submission: to be added.
-* [ ] View Personal Leave History and View Leave Application:
 * [ ] View Leave History: UI needed(pagination, navbars etc.), update function needed, delete completed.
 * [ ] View Leave Application: to be added.
 * [ ] View Leave Application for Approval and Subordinate Leave History: to be added.
