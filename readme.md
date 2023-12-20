@@ -27,6 +27,6 @@
 * [ ] Reporting: to be added.
 * [ ] Movement Register: completed.
 * [ ] Pagination: need to apply to all tables.
-* [ ] Email interactions: to be added.
+* [ ] Email interactions: to be added. (Forgot password used this, but more is needed) 
 
 > ReactJS and Spring Security: currently aborted.👀️ 
