@@ -10,6 +10,10 @@
   1. Employee on annual/compensation/medical/all leave during a selected period.
   2. Compensation claims for all/particular employee.
      `报告要能打印：员工在选定期间的年度/补偿/医疗/所有休假；所有/个别雇员的补偿假申请`
+* Set environment variable SPRING_MAIL_PASSWORD as aizveeybltnbhbta to use email services (Debug as->Configuration->Environment)
+* UI & UX will be scored, use [bootstrap](https://getbootstrap.com/docs/5.3/getting-started/introduction/) and [bootstrap icons](https://icons.getbootstrap.com/) for help design
+* copy and paste navbar if used, layout.html is shit, dont use it
+* ...
 
 ---
 
