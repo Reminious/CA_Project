@@ -30,3 +30,5 @@
 * [ ] Email interactions: to be added. (Forgot password used this, but more is needed) 
 
 > ReactJS and Spring Security: currently aborted.👀️ 
+---
+**This file should be a guide to use our system in the end**
