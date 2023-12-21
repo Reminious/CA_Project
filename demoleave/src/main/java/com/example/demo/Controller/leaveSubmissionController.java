@@ -4,6 +4,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,12 +103,15 @@ public class leaveSubmissionController {
 
     }
     private boolean checkTimeOverlapping(Integer UserID,LocalDate startDate, LocalDate endDate) {
-    	boolean isOverlapping=false;
-    	LeaveApplication oldApplication=leaveApplicationRepository.findByUser_IdAndStatus(UserID, "Applied");
-    	if(oldApplication!=null) {
-            isOverlapping= !oldApplication.getStartDate().isAfter(endDate) && !oldApplication.getEndDate().isBefore(startDate);
-    	}
-    	return isOverlapping;
+    	List<LeaveApplication> oldApplications=leaveApplicationRepository.findByUser_IdAndStatus(UserID, "Applied");
+    	if(!oldApplications.isEmpty()) {
+			for (LeaveApplication oldApplication : oldApplications) {
+				if(!oldApplication.getStartDate().isAfter(endDate) && !oldApplication.getEndDate().isBefore(startDate)){
+					return true;
+				};
+			}
+        }
+        return false;
     }
 	private boolean checkTime(LocalDate startDate, LocalDate endDate) {
 		
