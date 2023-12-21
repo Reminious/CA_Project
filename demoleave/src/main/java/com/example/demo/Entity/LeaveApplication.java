@@ -48,4 +48,9 @@ public class LeaveApplication {
     @JoinColumn(name = "UserID", referencedColumnName = "UserId", nullable = false)
     private User user;
 
+    @Column(name = "ContactDetails", length = 50)
+    private String contactDetails;
+
+    @Column(name = "WorkDissemination", length = 50)
+    private String workDissemination;
 }

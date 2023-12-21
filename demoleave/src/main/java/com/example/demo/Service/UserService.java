@@ -1,5 +1,7 @@
 package com.example.demo.Service;
+import com.example.demo.Entity.LeaveApplication;
 import com.example.demo.Repository.UserRepository;
+import com.example.demo.Repository.LeaveApplicationRepository;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 import com.example.demo.Entity.User;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +21,8 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private LeaveApplicationRepository leaveApplicationRepository;
     public User authenticateUser(Integer Id, String password) {
         return userRepository.findByIdAndPassword(Id, password);
     }
@@ -60,8 +65,13 @@ public class UserService {
         userRepository.save(user1);
     }
 
-    public boolean checkIfUserExists(Integer userId){
-        return userRepository.findById(userId).isPresent();
+    public void submitLeaveApplication(LeaveApplication leaveApplication) {
+        // Set additional fields before saving if needed
+        leaveApplication.setStatus("Applied"); // Set default status to Pending
+        leaveApplication.setSubmitDate(Instant.now());
+        // Set submit date to the current timestamp
+        // Save the LeaveApplication entity to the database
+        leaveApplicationRepository.save(leaveApplication);
     }
     public Page<User> getAllUsers(Pageable pageable){
         return userRepository.findAll(pageable);
