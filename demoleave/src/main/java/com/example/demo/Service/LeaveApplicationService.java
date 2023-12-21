@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class LeaveApplicationService {
@@ -37,6 +38,10 @@ public class LeaveApplicationService {
         return leaveApplicationPage.map(this::convertToDTO);
     }
 
+    public List<LeaveApplicationDTO> getLeaveApplicationForUser(Integer userId) {
+        List<LeaveApplication> leaveApplications = leaveApplicationRepository.findByUser_Id(userId);
+        return leaveApplications.stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
     private LeaveApplicationDTO convertToDTO(LeaveApplication leaveApplication){
         LeaveApplicationDTO leaveApplicationDTO = new LeaveApplicationDTO();
         leaveApplicationDTO.setId(leaveApplication.getId());

@@ -23,7 +23,7 @@ public class AdminController {
     private LeaveRemainService leaveRemainService;
 
     @GetMapping("/Admin")
-    public String adminControl(HttpSession session, Model model){
+    public String adminControl(){
         return "adminWelcome";
     }
 

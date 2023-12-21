@@ -26,7 +26,7 @@ import com.example.demo.Repository.LeaveRemainRepository;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-public class leaveSubmissionController {
+public class LeaveSubmissionController {
     @Autowired
     UserService employeeService;
     @Autowired
@@ -103,7 +103,7 @@ public class leaveSubmissionController {
 
     }
     private boolean checkTimeOverlapping(Integer UserID,LocalDate startDate, LocalDate endDate) {
-    	List<LeaveApplication> oldApplications=leaveApplicationRepository.findByUser_IdAndStatus(UserID, "Applied");
+		List<LeaveApplication> oldApplications=leaveApplicationRepository.findByUser_IdAndStatus(UserID, "Applied");
     	if(!oldApplications.isEmpty()) {
 			for (LeaveApplication oldApplication : oldApplications) {
 				if(!oldApplication.getStartDate().isAfter(endDate) && !oldApplication.getEndDate().isBefore(startDate)){
@@ -125,15 +125,15 @@ public class leaveSubmissionController {
 		Integer leaveTime=0;
 			LeaveRemainDTO newLeave=leaveremainService.getLeaveRemainByUserIDAndYear(userId,Year);
 			switch (leaveType) {
-            case "annual":
+            case "Annual":
                 System.out.println("选择了年假选项");
                 leaveTime=newLeave.getAnnualRemain();
                 break;
-            case "sick":
+            case "Sick":
                 System.out.println("选择了病假选项");
                 leaveTime=newLeave.getSickRemain();
                 break;
-            case "compensation":
+            case "Compensation":
                 System.out.println("选择了补偿假选项");
                 leaveTime=newLeave.getCompensationRemain();
                 break;
@@ -146,17 +146,17 @@ public class leaveSubmissionController {
     private LeaveRemainDTO CountRemain(Integer userId,String userName,Integer year,Integer applyTime,Integer annualRemain,Integer sickRemain,Integer compensationRemain,String leaveType) {
     	LeaveRemainDTO newRemain=new LeaveRemainDTO(userId, userName, year, null, null, null);
     	switch (leaveType) {
-    	case "annual":
+    	case "Annual":
     		newRemain.setCompensationRemain(compensationRemain);
     		newRemain.setSickRemain(sickRemain);
     		newRemain.setAnnualRemain(annualRemain-applyTime);
             break;
-    	case "sick":
+    	case "Sick":
     		newRemain.setCompensationRemain(compensationRemain);
     		newRemain.setSickRemain(sickRemain-applyTime);
     		newRemain.setAnnualRemain(annualRemain);
     		break;
-    	case "compensation":
+    	case "Compensation":
     		newRemain.setCompensationRemain(compensationRemain-applyTime);
     		newRemain.setSickRemain(sickRemain);
     		newRemain.setAnnualRemain(annualRemain);

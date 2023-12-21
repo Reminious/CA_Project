@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Leave</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+<script>
+	function validateStatus() {
+            const validStatus = ['Pending', 'Approved', 'Rejected'];
+            let status = document.getElementById('Status').value;
+            let statuserror = document.getElementById('statuserror');
+            statuserror.textContent = '';
+            if (!validStatus.includes(status)) {
+                if(validStatus.some(title => title.toLowerCase() === status.toLowerCase())) {
+                    statuserror.textContent = 'Status case incorrect, please use: '+ status.charAt(0).toUpperCase() + status.slice(1).toLowerCase() + ' instead';
+                } else {
+                    statuserror.textContent = 'Invalid status. Must be one of: Pending, Approved, Rejected';
+                }
+                statuserror.style.display = 'block';
+                return false;
+            }
+            return true;
+        }
+    function confirmUpdate() {
+            return validateStatus() && confirm('Are you sure you want to do this operation?');
+        }
+</script>
+<body>
+
+<nav class="navbar navbar-expand-lg bg-light fixed-top shadow-lg">
+    <div class="container">
+        <a style="font-family: 'Gigi', sans-serif" class="navbar-brand" href="#">Gra<span class="redfont">nny</span><span class="greenfont">Leave</span></a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link click-scroll" href="/Manager">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link click-scroll" href="/Manager/Done">View History</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link click-scroll" href="/login">Login</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link click-scroll" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div th:fragment="content" style="margin-top:100px;font-family: Consolas,serif">
+    <div class="container mt-4">
+        <h2>Operate Leave</h2>
+        <br/>
+        <form th:action="@{/operateLeave}" th:object="${leaveApplicationDTO}" method="post" onsubmit="return confirmUpdate()">
+            <input type="hidden" th:field="*{applicationId}"/>
+ 
+            <div class="mb-3">
+                <label for="userID" class="form-label">UserID</label>
+                <input type="number" id="UserID" class="form-control" th:field="*{UserID}" readonly>
+            </div>
+
+		    <div class="mb-3">
+		        <label for=">LeaveType" class="form-label">LeaveType</label>
+		        <input type="text" id="LeaveType" class="form-control" th:field="*{LeaveType}" readonly>
+		    </div>
+
+            <div class="mb-3">
+                <label for="Reason" class="form-label">Reason</label>
+                <input type="text" id="Reason" class="form-control" th:field="*{Reason}" readonly>
+            </div>
+
+            <div class="mb-3">
+                <label for="StartDate" class="form-label">StartDate</label>
+                <input type="date" id="StartDate" class="form-control" th:field="*{StartDate}" readonly>
+            </div>
+
+            <div class="mb-3">
+                <label for="EndDate" class="form-label">EndDate</label>
+                <input type="date" id="EndDate" class="form-control" th:field="*{EndDate}" readonly>
+            </div>
+			
+			<div class="mb-3">
+                <label for="Status" class="form-label">Status</label>
+                <input type="text" id="Status" class="form-control" th:field="*{Status}">
+                <div id="statuserror" class="form-text" style="color: red"></div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="Comment" class="form-label">Comment</label>
+                <input type="text" id="Comment" class="form-control" th:field="*{Comment}">
+            </div>
+            
+            <div class="mb-3">
+                <label for="SubmitDate" class="form-label">SubmitDate</label>
+                <input type="datetime" id="SubmitDate" class="form-control" th:field="*{SubmitDate}" readonly>
+            </div>
+			
+            <div class="mb-3">
+                <label for="ApproveDate" class="form-label">ApproveDate</label>
+                <input type="datetime" id="ApproveDate" class="form-control" th:field="*{ApproveDate}" readonly>
+            </div>
+            
+            <button id="submit" type="submit" class="btn btn-primary">Update</button>
+            <button id="moveback" href="/Manager" class="btn btn-primary">Return</button>
+            
+        </form>
+        
+        
+    </div>
+</div>
+
+</body>
+</html>

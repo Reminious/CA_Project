@@ -13,7 +13,7 @@
 <body>
 
 
-	<nav th:replace="layout::navbar"></nav>
+	<nav th:replace="~{layout::navbar}"></nav>
 	<div th:fragment="content">
 		<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
 			data-sidebar-position="fixed" data-header-position="fixed">
@@ -47,14 +47,14 @@
 
 										<label style="font-weight: bold;font-size: 17px;">Leave Type:</label><br>
 										<label>
-											<input type="radio" id="annual" name="leaveType" value="annual" required>
+											<input type="radio" id="annual" name="leaveType" value="Annual" required>
 											Annual
 										</label>
 										<label>
-											<input type="radio" id="sick" name="leaveType" value="sick" required> Sick
+											<input type="radio" id="sick" name="leaveType" value="Sick" required> Sick
 										</label>
 										<label>
-											<input type="radio" id="compensation" name="leaveType" value="compensation"
+											<input type="radio" id="compensation" name="leaveType" value="Compensation"
 												required> Compensation
 										</label>
 										<br>
