@@ -1,6 +1,5 @@
 package com.example.demo.Controller;
 import com.example.demo.Entity.LeaveFormDTO;
-import com.example.demo.Entity.User;
 import com.example.demo.Service.LeaveRemainService;
 import com.example.demo.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminApiController {
     @Autowired
     private LeaveRemainService leaveRemainService;
-    @Autowired
-    private UserService userService;
     @PostMapping("/checkLeaveExist")
     public boolean checkLeaveExist(@RequestBody LeaveFormDTO leaveFormDTO) {
         return leaveRemainService.checkIfRecordExists(leaveFormDTO.getUserId(), leaveFormDTO.getYear());

@@ -1,12 +1,9 @@
 package com.example.demo.Controller;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
+import com.example.demo.Service.SubmissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,177 +17,89 @@ import com.example.demo.Service.UserService;
 import com.example.demo.Entity.LeaveApplication;
 import com.example.demo.Entity.LeaveRemainDTO;
 import com.example.demo.Entity.User;
-import com.example.demo.Repository.LeaveApplicationRepository;
-import com.example.demo.Repository.LeaveRemainRepository;
 
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class LeaveSubmissionController {
     @Autowired
-    UserService employeeService;
+    UserService userService;
     @Autowired
     LeaveRemainService leaveremainService;
     @Autowired
-    private LeaveRemainRepository leaveRemainRepository;
-    @Autowired
-    private LeaveApplicationRepository leaveApplicationRepository;
+    SubmissionService submissionService;
 
-    @GetMapping("/{userID}/leaveSubmission")
-    public String showLeaveForm(@PathVariable String userID, HttpSession session) {
-    	User user =  (User) session.getAttribute("user");
-    	return "leaveSubmission";
+    @GetMapping("{jobTitle}/{userID}/leaveSubmission")
+    public String showLeaveForm(@PathVariable String jobTitle, @PathVariable String userID, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        return "leaveSubmission";
     }
-    
-    @PostMapping("/{userID}/submitLeave")
-	public String submitLeave(
-								  @PathVariable String userID,
-								  @RequestParam LocalDate startDate,								  
-								  @RequestParam LocalDate endDate,
-								  @RequestParam String leaveType,
-								  @RequestParam String reason,
-								  @RequestParam String contact_details,
-								  @RequestParam String work_dissemination,
-								  HttpSession session, Model model
-								 ) {
-		
-		  User user = (User) session.getAttribute("user"); 
-		  model.addAttribute("userId",user.getId()); 
-		  Integer userId=user.getId();
-		  String userName=user.getName();
-		  //for a user, if there's already application for vacation
-		  //(means the status is "Applied"),
-		  //then user cannot apply for vacation until status is changed.
-		  
-		  boolean applicationOK=false;
-		  int year = startDate.getYear();
-		  Integer daysDifference = (int) ChronoUnit.DAYS.between(startDate, endDate)+1;
-		  //Check user's application
-		  //1.check select time:
-		  //2.check whether time is enough, including compensation time.
-		  if(!checkTimeOverlapping(userId, startDate,  endDate)&&checkTime(startDate,endDate)&&checkAvailability(userId,year,leaveType,daysDifference)) {
-			  applicationOK=true;
-		  }
-		  //if checking is done, add this application to our database.
-		  if(applicationOK) {
-			  LeaveApplication newleave=new LeaveApplication(); 
-			  newleave.setLeaveType(leaveType);
-			  newleave.setStartDate(startDate);
-			  newleave.setEndDate(endDate);
-			  newleave.setUser(user);
-			  newleave.setReason(reason);
-			  newleave.setWorkDissemination(work_dissemination);
-			  newleave.setContactDetails(contact_details);
-			  employeeService.submitLeaveApplication(newleave);
-			  LeaveRemainDTO ToEditLeave=leaveremainService.getLeaveRemainByUserIDAndYear(userId,year);
-			  Integer annualRemain=ToEditLeave.getAnnualRemain();
-			  Integer sickRemain=ToEditLeave.getSickRemain();
-			  Integer compensationRemain=ToEditLeave.getCompensationRemain();
-			  //When apply annual vacation, we need to check everyday in apply : if the leave period is <= 14 calendar days, weekends / public holidays are excluded.
-			  //Otherwise, weekends / public holidays are included	
-			  //1.weekend?
-			  //2.public holiday?	  
-			  if(daysDifference <= 14&&leaveType.equals("annual")) {
-				  daysDifference=countWorkingDays(startDate,endDate);
-			  }
-			  LeaveRemainDTO updateremain=CountRemain(userId,userName,year,daysDifference,annualRemain, sickRemain, compensationRemain,leaveType);
-			  leaveremainService.updateLeaveRemain(updateremain);
-			  return "redirect:/index";
-		  }
-		  else {
-			  return "error";
-		  }
 
-    }
-    private boolean checkTimeOverlapping(Integer UserID,LocalDate startDate, LocalDate endDate) {
-		List<LeaveApplication> oldApplications=leaveApplicationRepository.findByUser_IdAndStatus(UserID, "Applied");
-    	if(!oldApplications.isEmpty()) {
-			for (LeaveApplication oldApplication : oldApplications) {
-				if(!oldApplication.getStartDate().isAfter(endDate) && !oldApplication.getEndDate().isBefore(startDate)){
-					return true;
-				};
-			}
+    @PostMapping("{jobTitle}/{userID}/submitLeave")
+    public String submitLeave(
+            @PathVariable String jobTitle,
+            @PathVariable String userID,
+            @RequestParam LocalDate startDate,
+            @RequestParam LocalDate endDate,
+            @RequestParam String leaveType,
+            @RequestParam String reason,
+            @RequestParam String contact_details,
+            @RequestParam String work_dissemination,
+            HttpSession session, Model model
+    ) {
+
+        User user = (User) session.getAttribute("user");
+        model.addAttribute("userId", user.getId());
+        Integer userId = user.getId();
+        String userName = user.getName();
+        String s=jobTitle+"Welcome";
+        //for a user, if there's already application for vacation
+        //(means the status is "Applied"),
+        //then user cannot apply for vacation until status is changed.
+        boolean applicationOK = false;
+        int year = startDate.getYear();
+        Integer daysDifference = (int) ChronoUnit.DAYS.between(startDate, endDate) + 1;
+        //Check user's application
+        //1.check select time:
+        //2.check whether time is enough, including compensation time.
+        if (!submissionService.checkTimeOverlapping(userId, startDate, endDate) && submissionService.checkTime(startDate, endDate) && submissionService.checkAvailability(userId, year, leaveType, daysDifference)) {
+            applicationOK = true;
         }
-        return false;
-    }
-	private boolean checkTime(LocalDate startDate, LocalDate endDate) {
-		
-		return ((isWorkingDay(startDate)||isWorkingDay(endDate))&& startDate.isBefore(endDate))&&(startDate.getYear()==endDate.getYear());
-		//if startDate is later than endDate, 
-		//this statement will be more than 0,return false.
-		//And the vacation should be in one year, if start and end year is not equal, it will return false.
-	}
-	
-	private boolean checkAvailability(Integer userId,Integer Year,String leaveType,Integer daysDifference) {
-		Integer leaveTime=0;
-			LeaveRemainDTO newLeave=leaveremainService.getLeaveRemainByUserIDAndYear(userId,Year);
-			switch (leaveType) {
-            case "Annual":
-                System.out.println("选择了年假选项");
-                leaveTime=newLeave.getAnnualRemain();
-                break;
-            case "Sick":
-                System.out.println("选择了病假选项");
-                leaveTime=newLeave.getSickRemain();
-                break;
-            case "Compensation":
-                System.out.println("选择了补偿假选项");
-                leaveTime=newLeave.getCompensationRemain();
-                break;
-            default:
-                System.out.println("无效选项");}
-        return leaveTime > daysDifference;
-
-	}
-
-    private LeaveRemainDTO CountRemain(Integer userId,String userName,Integer year,Integer applyTime,Integer annualRemain,Integer sickRemain,Integer compensationRemain,String leaveType) {
-    	LeaveRemainDTO newRemain=new LeaveRemainDTO(userId, userName, year, null, null, null);
-    	switch (leaveType) {
-    	case "Annual":
-    		newRemain.setCompensationRemain(compensationRemain);
-    		newRemain.setSickRemain(sickRemain);
-    		newRemain.setAnnualRemain(annualRemain-applyTime);
-            break;
-    	case "Sick":
-    		newRemain.setCompensationRemain(compensationRemain);
-    		newRemain.setSickRemain(sickRemain-applyTime);
-    		newRemain.setAnnualRemain(annualRemain);
-    		break;
-    	case "Compensation":
-    		newRemain.setCompensationRemain(compensationRemain-applyTime);
-    		newRemain.setSickRemain(sickRemain);
-    		newRemain.setAnnualRemain(annualRemain);
-    		break;
-    	default:
-    		System.out.print(false);
-    	}
-    	return newRemain;
-    }
-    // 定义法定节假日列表
-    private static final Map<LocalDate, String> publicHolidays = new HashMap<>();
-    static {
-        publicHolidays.put(LocalDate.of(2023, 12, 25), "Christmas Day");
-
-    }
-
-    // 判断是否为工作日
-    public static boolean isWorkingDay(LocalDate date) {
-        return date.getDayOfWeek() != DayOfWeek.SATURDAY && date.getDayOfWeek() != DayOfWeek.SUNDAY
-                && !publicHolidays.containsKey(date);
-    }
-
-    // 
-    // 计算两个日期之间的工作日天数
-    private static Integer countWorkingDays(LocalDate startDate, LocalDate endDate) {
-        Integer workingDays = 0;
-        LocalDate currentDate = startDate;
-        while (!currentDate.isAfter(endDate)) {
-            if (isWorkingDay(currentDate)) {
-                workingDays++;
+        //if checking is done, add this application to our database.
+        if (applicationOK) {
+            LeaveApplication newLeave = new LeaveApplication();
+            newLeave.setLeaveType(leaveType);
+            newLeave.setStartDate(startDate);
+            newLeave.setEndDate(endDate);
+            newLeave.setUser(user);
+            newLeave.setReason(reason);
+            newLeave.setWorkDissemination(work_dissemination);
+            newLeave.setContactDetails(contact_details);
+            newLeave.setApproverID(user.getSupervisor());
+            userService.submitLeaveApplication(newLeave);
+            LeaveRemainDTO toEditLeave = leaveremainService.getLeaveRemainByUserIDAndYear(userId, year);
+            Integer annualRemain = toEditLeave.getAnnualRemain();
+            Integer sickRemain = toEditLeave.getSickRemain();
+            Integer compensationRemain = toEditLeave.getCompensationRemain();
+            //When apply annual vacation, we need to check everyday in apply : if the leave period is <= 14 calendar days, weekends / public holidays are excluded.
+            //Otherwise, weekends / public holidays are included
+            //1.weekend?
+            //2.public holiday?
+            if (daysDifference <= 14 && leaveType.equals("annual")) {
+                daysDifference = SubmissionService.countWorkingDays(startDate, endDate);
             }
-            currentDate = currentDate.plusDays(1);
+            LeaveRemainDTO updateRemain = submissionService.countRemain(userId, userName, year, daysDifference, annualRemain, sickRemain, compensationRemain, leaveType);
+            leaveremainService.updateLeaveRemain(updateRemain);
+            model.addAttribute("ApplicationStatus", "Your application has been submitted successfully.");
+        } else {
+			model.addAttribute("ApplicationStatus", "Please check your application's start and end date.");
         }
-        return workingDays;
+        return s;
+
     }
+
+
+
+
 }
 

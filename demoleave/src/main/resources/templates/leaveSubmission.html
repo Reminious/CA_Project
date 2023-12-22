@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<meta charset="UTF-8">
@@ -7,11 +7,9 @@
 	<title>Leave Submission Form</title>
 	<link href="/css/bootstrap.min.css" rel="stylesheet">
 	<link href="/css/style.css" rel="stylesheet">
-
 </head>
 
 <body>
-
 
 	<nav th:replace="~{layout::navbar}"></nav>
 	<div th:fragment="content">
@@ -24,7 +22,7 @@
 						<div class="col-md-8 col-lg-6 col-xxl-3">
 							<div class="card mb-0">
 								<div class="card-body">
-									<form role="form" method="post" th:action="@{'/'+ ${session.user.id} + '/submitLeave'}">
+									<form role="form" method="post" th:action="@{'/'+ ${session.user.jobTitle} +'/'+ ${session.user.id} + '/submitLeave'}">
 										<h4 style="font-weight: bold;"> Start Your Leave Application</h4>
 										<br>
 										<div class="row">

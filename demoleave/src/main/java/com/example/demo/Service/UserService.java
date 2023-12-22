@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import com.example.demo.Entity.User;
 
 import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,7 +69,7 @@ public class UserService {
     public void submitLeaveApplication(LeaveApplication leaveApplication) {
         // Set additional fields before saving if needed
         leaveApplication.setStatus("Applied"); // Set default status to Pending
-        leaveApplication.setSubmitDate(Instant.now());
+        leaveApplication.setSubmitDate(Instant.now().atZone(ZoneId.of("UTC")).plusHours(8).toInstant());
         // Set submit date to the current timestamp
         // Save the LeaveApplication entity to the database
         leaveApplicationRepository.save(leaveApplication);

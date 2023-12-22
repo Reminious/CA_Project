@@ -13,37 +13,37 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link click-scroll" href="#">Home</a>
+                    <a class="nav-link click-scroll" th:href="@{'/'+ ${session.user.jobTitle}}">Home</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link click-scroll" href="#">AAA</a>
+                    <a class="nav-link click-scroll" th:href="@{'/'+ ${session.user.jobTitle} +'/'+ ${session.user.id} + '/leaveSubmission'}">Apply</a>
                 </li>
 
-                <li class="nav-item dropdown">
+                <li class="nav-item" th:if="${session.user.jobTitle=='Manager'}">
+                    <a class="nav-link click-scroll" href="/Manager/Done">Apply</a>
+                </li>
+
+                <li class="nav-item dropdown" th:if="${session.user.jobTitle=='Admin'}">
                     <a class="nav-link dropdown-toggle click-scroll" href="#" id="navbarLightDropdownMenuLink"
-                       role="button" data-bs-toggle="dropdown" aria-expanded="false">BBB</a>
+                       role="button" data-bs-toggle="dropdown" aria-expanded="false">Management</a>
 
                     <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
-                        <li><a class="dropdown-item" href="#">B1</a></li>
+                        <li><a class="dropdown-item" href="/Admin/Users">User management</a></li>
 
-                        <li><a class="dropdown-item" href="#">B2</a></li>
+                        <li><a class="dropdown-item" href="/Admin/Leaves">Leave management</a></li>
                     </ul>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link click-scroll" href="#">CCC</a>
+                    <a class="nav-link click-scroll" th:href="@{'/'+${session.user.jobTitle}+'/'+${session.user.id}+'/History'}">View History</a>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link click-scroll" href="#">DDD</a>
-                </li>
-
-                <li class="nav-item">
+                <li class="nav-item" th:if="${session.user==null}">
                     <a class="nav-link click-scroll" href="/login">Login</a>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item" th:if="${session.user!=null}">
                     <a class="nav-link click-scroll" href="/logout">Logout</a>
                 </li>
             </ul>

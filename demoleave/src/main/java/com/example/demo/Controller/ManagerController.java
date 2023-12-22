@@ -1,12 +1,8 @@
 package com.example.demo.Controller;
-import com.example.demo.Entity.LeaveApplicationDTO;
-import com.example.demo.Entity.LeaveRemainDTO;
 import com.example.demo.Entity.ManagerLeaveApplicationDTO;
 import com.example.demo.Entity.User;
-import com.example.demo.Service.LeaveRemainService;
 import com.example.demo.Service.ManagerLeaveApplicationService;
 import com.example.demo.Service.ManagerService;
-
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,8 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.example.demo.Service.AdminService;
-import com.example.demo.Service.LeaveApplicationService;
 
 import org.springframework.web.servlet.ModelAndView;
 
@@ -34,7 +28,7 @@ public class ManagerController {
 
     @GetMapping("/Manager")
     public String ManagerControl(){
-        return "redirect:/Manager/Leaves";
+        return "managerWelcome";
     }
 
 //上面manager登录没问题了
@@ -46,19 +40,19 @@ public class ManagerController {
     	Page<ManagerLeaveApplicationDTO> leavesPage=managerleaveApplicationService.getLeaveApplicationsByApproverAndManager(id,PageRequest.of(page,size));
         model.addAttribute("leavesPage",leavesPage);
 
-        return "manager";
+        return "managerSubLeave";
     }
     
     
     @GetMapping("/Manager/Done")
-    public String showDoneLeave(HttpSession session,Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
+    public String showDoneLeave(HttpSession session,Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "8") int size){
     	User user1 = (User) session.getAttribute("user");
     	Integer id=user1.getId();
     	//System.out.println("Manager ID: " + id);
     	Page<ManagerLeaveApplicationDTO> leavesPage=managerleaveApplicationService.getLeaveApplicationsByApproverAndManager(id,PageRequest.of(page,size));
         model.addAttribute("leavesPage",leavesPage);
 
-        return "operatehistory";
+        return "operateHistory";
     }
     
     

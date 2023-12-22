@@ -1,5 +1,7 @@
 package com.example.demo.Configuration;
+import com.example.demo.Controller.EmployeeController;
 import com.example.demo.Interceptor.AdminInterceptor;
+import com.example.demo.Interceptor.EmployeeInterceptor;
 import com.example.demo.Interceptor.ManagerInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,10 +16,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
     private AdminInterceptor adminInterceptor;
     @Autowired
     private ManagerInterceptor managerInterceptor;
+    @Autowired
+    private EmployeeInterceptor employeeInterceptor;
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(adminInterceptor).addPathPatterns("/Admin/**");
         registry.addInterceptor(managerInterceptor).addPathPatterns("/Manager/**");
-        registry.addInterceptor(managerInterceptor).addPathPatterns("/Employee/**");
+        registry.addInterceptor(employeeInterceptor).addPathPatterns("/Employee/**");
     }
 }

@@ -1,7 +1,5 @@
 package com.example.demo.Controller;
-
 import com.example.demo.Entity.User;
-import com.example.demo.Repository.UserRepository;
 import com.example.demo.Service.LeaveApplicationService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +19,8 @@ public class ViewHistoryController {
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     private SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    @GetMapping("/{userID}/History")
-    public String viewHistory(@PathVariable String userID, HttpSession session, Model model) {
+    @GetMapping("/{jobTitle}/{userID}/History")
+    public String viewHistory(@PathVariable String jobTitle,@PathVariable String userID, HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return "redirect:/login";
@@ -33,13 +31,13 @@ public class ViewHistoryController {
         return "history";
     }
 
-    @PostMapping("/{userID}/History/cancel")
-    public String cancelApplication(@PathVariable String userID, HttpSession session, Model model, @RequestParam Integer applicationId) {
+    @PostMapping("/{jobTitle}/{userID}/History/cancel")
+    public String cancelApplication(@PathVariable String jobTitle,@PathVariable String userID, HttpSession session, Model model, @RequestParam Integer applicationId) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return "redirect:/login";
         }
         leaveApplicationService.deleteLeaveApplication(applicationId);
-        return "redirect:/{userID}/History";
+        return "redirect:/{jobTitle}/{userID}/History";
     }
 }

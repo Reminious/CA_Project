@@ -2,6 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
     <title>Leave Applications</title>
     <script>
         function confirmCancel() {
@@ -10,6 +12,7 @@
     </script>
 </head>
 <body>
+<nav th:replace="~{layout::navbar}"></nav>
 <h2>Leave Applications</h2>
 
 <table border="1">
@@ -42,18 +45,18 @@
         <td th:text="${leaveApplication.approveDate}"></td>
         <td th:text="${leaveApplication.comment}"></td>
         <td th:if="${leaveApplication.status=='Approved'}">
-            <form th:action="@{'/'+ ${session.user.id} + '/History/cancel'}" method="post">
+            <form th:action="@{'/'+ ${session.user.jobTitle} +'/'+ ${session.user.id} + '/History/cancel'}" method="post">
                 <input type="hidden" name="applicationId" th:value="${leaveApplication.id}" />
                 <button type="submit" onclick="return confirmCancel()">Cancel</button>
             </form>
         </td>
         <td th:if="${leaveApplication.status=='Pending'}">
-            <form th:action="@{'/'+ ${session.user.id} + '/History/update'}" method="post">
+            <form th:action="@{'/'+ ${session.user.jobTitle} +'/'+ ${session.user.id} + '/History/update'}" method="post">
                 <input type="hidden" name="applicationId" th:value="${leaveApplication.id}" />
                 <button type="submit">Update</button>
             </form>
             /
-            <form th:action="@{'/'+ ${session.user.id} + '/History/cancel'}" method="post">
+            <form th:action="@{'/'+ ${session.user.jobTitle} +'/'+ ${session.user.id} + '/History/cancel'}" method="post">
                 <input type="hidden" name="applicationId" th:value="${leaveApplication.id}" />
                 <button type="submit" onclick="return confirmCancel()">Delete</button>
             </form>
