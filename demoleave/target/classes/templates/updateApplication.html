@@ -33,8 +33,18 @@
             </div>
 
             <div class="mb-3">
-                <label for="reason" class="form-label">Reason</label>
-                <input type="text" id="reason" class="form-control" th:field="*{reason}" required>
+                <label>Leave Type:</label><br>
+                <label>
+                    <input type="radio" id="annual" name="leaveType" value="Annual" required>
+                    Annual
+                </label>
+                <label>
+                    <input type="radio" id="sick" name="leaveType" value="Sick" required> Sick
+                </label>
+                <label>
+                    <input type="radio" id="compensation" name="leaveType" value="Compensation"
+                           required> Compensation
+                </label>
             </div>
 
             <div class="mb-3">
