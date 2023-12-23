@@ -16,11 +16,13 @@ import com.example.demo.Repository.ManagerRepository;
 import com.example.demo.Repository.UserRepository;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.criteria.Predicate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.demo.Entity.User;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
@@ -41,18 +43,26 @@ public class ManagerLeaveApplicationService {
     @Autowired
     private LeaveRemainRepository leaveRemainRepository;
 
+    @Autowired
+    private ManagerRepository managerRepository;
     
     public Page<ManagerLeaveApplicationDTO> getLeaveApplicationsByApproverAndManager(Integer managerId, Pageable pageable) {
-        //System.out.println("Manager ID: " + managerId);
-        
+
         Page<ManagerLeaveApplication> leaveApplicationPage = leaveApplicationRepository.findByApproverID(managerId, pageable);
-        
-        //System.out.println("Number of elements in page: " + leaveApplicationPage.getTotalElements());
-        
         return leaveApplicationPage.map(this::convertToLeaveApplicationDTO);
     }
 
-    
+    public Page<ManagerLeaveApplicationDTO> getAppliedLeaveApplicationsByApproverAndManager(Integer managerId, Pageable pageable) {
+
+        Page<ManagerLeaveApplication> leaveApplicationPage = leaveApplicationRepository.findByApproverIDAndStatus(managerId,"Applied", pageable);
+        return leaveApplicationPage.map(this::convertToLeaveApplicationDTO);
+    }
+
+    public Page<ManagerLeaveApplicationDTO> getNotAppliedLeaveApplicationsByApproverAndManager(Integer managerId, Pageable pageable) {
+
+        Page<ManagerLeaveApplication> leaveApplicationPage = leaveApplicationRepository.findByApproverIDAndStatusNot(managerId,"Applied", pageable);
+        return leaveApplicationPage.map(this::convertToLeaveApplicationDTO);
+    }
     
     
     public ManagerLeaveApplicationDTO getLeaveApplicationByApplicationId(Integer id) {
@@ -82,7 +92,7 @@ public class ManagerLeaveApplicationService {
         Integer leaveApplicationId = leaveApplicationDTO.getApplicationId();
         ManagerLeaveApplication leaveApplication = leaveApplicationRepository.findByApplicationId(leaveApplicationId).orElse(null);
 
-        if (leaveApplication != null && "Approved".equals(leaveApplicationDTO.getStatus())) {
+        if (leaveApplication != null && "Rejected".equals(leaveApplicationDTO.getStatus())) {
             SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy.M.d");
             String startDateStr = inputFormat.format(leaveApplicationDTO.getStartDate());
             String endDateStr = inputFormat.format(leaveApplicationDTO.getEndDate());
@@ -112,16 +122,16 @@ public class ManagerLeaveApplicationService {
 
                     switch (leaveApplicationDTO.getLeaveType()) {
                         case "Sick":
-                            theDifference = leaveRemain.getSickRemain() - (int) daysDifference;
+                            theDifference = leaveRemain.getSickRemain() + (int) daysDifference;
                             System.out.println("theDifference: " + theDifference);
                             leaveRemain.setSickRemain(theDifference);
                             break;
                         case "Annual":
-                            theDifference = leaveRemain.getAnnualRemain() - (int) daysDifference;
+                            theDifference = leaveRemain.getAnnualRemain() + (int) daysDifference;
                             leaveRemain.setAnnualRemain(theDifference);
                             break;
                         case "Compensation":
-                            theDifference = leaveRemain.getCompensationRemain() - (int) daysDifference;
+                            theDifference = leaveRemain.getCompensationRemain() + (int) daysDifference;
                             leaveRemain.setCompensationRemain(theDifference);
                             break;
                         // Add other leave types as needed
@@ -152,7 +162,8 @@ public class ManagerLeaveApplicationService {
 
     public ManagerLeaveApplicationDTO convertToLeaveApplicationDTO(ManagerLeaveApplication leaveApplication) {
     	ManagerLeaveApplicationDTO leaveApplicationDTO = new ManagerLeaveApplicationDTO(leaveApplication.getApplicationId(), leaveApplication.getApproverID());
-        leaveApplicationDTO.setUserID(leaveApplication.getUserId());
+        leaveApplicationDTO.setUserID(leaveApplication.getUser().getId());
+        leaveApplicationDTO.setUserName(leaveApplication.getUser().getName());
         leaveApplicationDTO.setReason(leaveApplication.getReason());
         leaveApplicationDTO.setLeaveType(leaveApplication.getLeaveType());
         leaveApplicationDTO.setStartDate(leaveApplication.getStartDate());
@@ -162,6 +173,8 @@ public class ManagerLeaveApplicationService {
         leaveApplicationDTO.setComment(leaveApplication.getComment());
         leaveApplicationDTO.setStatus(leaveApplication.getStatus());
         leaveApplicationDTO.setApproveDate(leaveApplication.getApproveDate());
+        leaveApplicationDTO.setContactDetails(leaveApplication.getContactDetails());
+        leaveApplicationDTO.setWorkDissemination(leaveApplication.getWorkDissemination());
         // 其他字段设置...
         //System.out.println("userid" + ": " + leaveApplicationDTO.getApplicationId());
         //System.out.println("userid" + ": " + leaveApplicationDTO.getUserID());
@@ -171,6 +184,21 @@ public class ManagerLeaveApplicationService {
         return leaveApplicationDTO;
     }
 
-
+    
+    
+    public Page<ManagerLeaveApplicationDTO> searchLeave(String username, Integer userId, Pageable pageable) {
+        Specification<ManagerLeaveApplication> spec = (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if (username != null && !username.isEmpty()) {
+                predicates.add(criteriaBuilder.equal(root.join("user").get("name"), username));
+            }
+            if (userId != null) {
+                predicates.add(criteriaBuilder.equal(root.get("user").get("id"), userId));
+            }
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
+        Page<ManagerLeaveApplication> leaveApplicationPage = managerRepository.findAll(spec, pageable);
+        return leaveApplicationPage.map(this::convertToLeaveApplicationDTO);
+    }
 
 }

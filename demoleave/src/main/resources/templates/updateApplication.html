@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Leave</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+<script>
+    function confirmUpdate() {
+        return confirm('Are you sure you want to update this record?');
+    }
+</script>
+<body>
+
+<nav th:replace="~{layout::navbar}"></nav>
+
+<div th:fragment="content" style="margin-top:100px;font-family: Consolas,serif">
+    <div class="container mt-4">
+        <h2>Edit Application</h2>
+        <br/>
+        <form th:action="@{'/'+${session.user.jobTitle}+'/'+ ${session.user.id} + '/History/update/' + ${leaveApplication.id}}" th:object="${leaveApplication}" method="post" onsubmit="return confirmUpdate()">
+            <input type="hidden" th:field="*{id}"/>
+            <input type="hidden" th:field="*{user}">
+            <input type="hidden" th:field="*{submitDate}">
+            <input type="hidden" th:field="*{approverID}">
+            <input type="hidden" th:field="*{approveDate}">
+            <input type="hidden" th:field="*{comment}">
+
+            <div class="mb-3">
+                <label for="leaveType" class="form-label">Leave Type</label>
+                <input type="text" id="leaveType" class="form-control" th:field="*{leaveType}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="reason" class="form-label">Reason</label>
+                <input type="text" id="reason" class="form-control" th:field="*{reason}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="startDate" class="form-label">Start Date</label>
+                <input type="date" id="startDate" class="form-control" th:field="*{startDate}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="endDate" class="form-label">End Date</label>
+                <input type="date" id="endDate" class="form-control" th:field="*{endDate}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="contactDetails" class="form-label">Contact Details</label>
+                <input type="text" id="contactDetails" class="form-control" th:field="*{contactDetails}">
+            </div>
+
+            <div class="mb-3">
+                <label for="workDissemination" class="form-label">Work Dissemination</label>
+                <input type="text" id="workDissemination" class="form-control" th:field="*{workDissemination}">
+            </div>
+
+            <div class="mb-3">
+                <label for="status" class="form-label">Status</label>
+                <input type="text" id="status" class="form-control bg-info" th:field="*{status}" readonly>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

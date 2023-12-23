@@ -3,7 +3,7 @@
     --secondary-color: #FFA48D;
     --white-color: #ffffff;
     --p-color: #717275;
-    --p-font-size: 20px;
+    --p-font-size: 15px;
     --font-weight-bold: 700;
     --font-weight-normal: 400;
     --font-weight-light: 300;
@@ -32,6 +32,10 @@ a {
 
 a:hover {
     color: var(--secondary-color);
+}
+
+.table th,.table td {
+    vertical-align: middle!important;
 }
 
 .redfont {

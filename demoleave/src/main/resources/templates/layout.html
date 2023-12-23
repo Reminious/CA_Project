@@ -19,16 +19,20 @@
                 <li class="nav-item">
                     <a class="nav-link click-scroll" th:href="@{'/'+ ${session.user.jobTitle} +'/'+ ${session.user.id} + '/leaveSubmission'}">Apply</a>
                 </li>
-
-                <li class="nav-item" th:if="${session.user.jobTitle=='Manager'}">
-                    <a class="nav-link click-scroll" href="/Manager/Done">Apply</a>
+				
+				<li class="nav-item" th:if="${session.user.jobTitle=='Manager'}">
+                    <a class="nav-link click-scroll" href="/Manager/Leaves">Pending Application</a>
                 </li>
-
+                
+                <li class="nav-item" th:if="${session.user.jobTitle=='Manager'}">
+                    <a class="nav-link click-scroll" href="/Manager/Done">Operation History</a>
+                </li>
+				
                 <li class="nav-item dropdown" th:if="${session.user.jobTitle=='Admin'}">
                     <a class="nav-link dropdown-toggle click-scroll" href="#" id="navbarLightDropdownMenuLink"
                        role="button" data-bs-toggle="dropdown" aria-expanded="false">Management</a>
 
-                    <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+                    <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink" >
                         <li><a class="dropdown-item" href="/Admin/Users">User management</a></li>
 
                         <li><a class="dropdown-item" href="/Admin/Leaves">Leave management</a></li>
@@ -36,7 +40,11 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link click-scroll" th:href="@{'/'+${session.user.jobTitle}+'/'+${session.user.id}+'/History'}">View History</a>
+                    <a class="nav-link click-scroll" th:href="@{'/'+${session.user.jobTitle}+'/'+${session.user.id}+'/History'}">My History</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link click-scroll" href="/MovementRegister">Movement Register</a>
                 </li>
 
                 <li class="nav-item" th:if="${session.user==null}">

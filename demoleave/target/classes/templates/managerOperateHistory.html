@@ -1,44 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-
+	<script src="/js/papaparse.min.js"></script>
     <meta charset="UTF-8">
     <title>History Page</title>
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg bg-light fixed-top shadow-lg">
-    <div class="container">
-        <a style="font-family: 'Gigi', sans-serif" class="navbar-brand" href="#">Gra<span class="redfont">nny</span><span class="greenfont">Leave</span></a>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link click-scroll" href="/Manager">Home</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link click-scroll" href="/Manager/Done">View History</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link click-scroll" href="/login">Login</a>
-                </li>
-                
-                <li class="nav-item">
-                    <a class="nav-link click-scroll" href="/logout">Logout</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<nav th:replace="~{layout::navbar}"></nav>
 
 <div th:fragment="content">
     <table id="table1" class="table-borderless table-sm align-middle"
-           style="font-family: 'Consolas', sans-serif; width:800px;margin-right: auto;margin-left: auto;margin-top:100px;align-content: center">
+           style="font-family: 'Consolas', sans-serif; width:1200px;margin-right: auto;margin-left: auto;margin-top:100px;text-align:center;vertical-align: middle; argin: auto;">
         <tr>
-            <td width="80%"></td>
+            <td style="width: 80%"></td>
             <td>
     			<form action="#" th:action="@{/Manager/Done}" method="get">
         			<div class="input-group mb-3">
@@ -62,25 +38,27 @@
                     <tr class="text-center">
 						<th>ApplicationID</th>
                         <th>User ID</th>
+                        <th>User Name</th>
 			            <th>Leave Type</th>
-			            <th>Start Date</th>
-			            <th>End Date</th>
+			            <th>StartDate</th>
+			            <th>EndDate</th>
 			            <th>Status</th>
 			            <th>Approver ID</th>
-			            <th>Approve Date</th>
+			            <th>ApproveDate</th>
 			            <th>Operate</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="text-center" th:each="leave : ${leavesPage.content}" th:if="${leave.status == 'Approved' or leave.status == 'Rejected'}">
+                    <tr class="text-center" th:each="leave : ${leavesPage.content}">
     					<td class="text-center" th:text="${leave.ApplicationId}"></td>
     					<td th:text="${leave.UserID}"></td>
+    					<td th:text="${leave.UserName}"></td>
     					<td th:text="${leave.LeaveType}"></td>
     					<td th:text="${leave.StartDate}"></td>
     					<td th:text="${leave.EndDate}"></td>
     					<td th:text="${leave.Status}"></td>
     					<td th:text="${leave.ApproverID}"></td>
-    					<td th:text="${#temporals.format(leave.ApproveDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+    					<td style="width: 150px;" th:text="${#temporals.format(leave.ApproveDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
 
     					<td><a th:href="@{/operateLeave(applicationId=${leave.ApplicationId})}">Info</a></td>
 					</tr>
@@ -91,8 +69,7 @@
         </tr>
         <tr><td></td>
 			<td>
-				<button type="button" onclick="exportToCSV()">Save the Table</button>
-				
+				<button type="button" onclick="exportToCSV()">Export Table</button>
 			</td>
 		</tr>
 
@@ -113,7 +90,7 @@
 		
 		    // 遍历行中的每个单元格
 		    for (var j = 0; j < row.cells.length - 1; j++) {
-    			if (j === 3 || j === 4 || j === 7) {
+    			if (j === 4 || j === 5 || j === 8) {
         			// Replace `yourDateColumnIndex` with the actual index of the date column
         			// Format the date
         			rowData.push(formatDate(row.cells[j].innerText)); // Implement the formatDate function
@@ -158,6 +135,8 @@
     var formattedDate = date.toLocaleString(); // 这是一个简单的格式化示例，根据需要进行修改
     return formattedDate;
 }
+	
+	
 
 </script>
 
@@ -168,18 +147,18 @@
 <div>
     <ul class="pagination justify-content-center">
         <li class="page-item" th:classappend="${leavesPage.hasPrevious() ? '' : 'disabled'}">
-            <a class="page-link" th:href="@{/Manager/Leaves(page=${leavesPage.number - 1}, size=${leavesPage.size})}"
+            <a class="page-link" th:href="@{/Manager/Done(page=${leavesPage.number - 1}, size=${leavesPage.size})}"
                aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
             </a>
         </li>
         <li th:each="pageNum : ${#numbers.sequence(0, leavesPage.totalPages - 1)}" class="page-item"
             th:classappend="${pageNum == leavesPage.number ? 'active' : ''}">
-            <a class="page-link" th:href="@{/Manager/Leaves(page=${pageNum}, size=${leavesPage.size})}"
+            <a class="page-link" th:href="@{/Manager/Done(page=${pageNum}, size=${leavesPage.size})}"
                th:text="${pageNum + 1}"></a>
         </li>
         <li class="page-item" th:classappend="${leavesPage.hasNext() ? '' : 'disabled'}">
-            <a class="page-link" th:href="@{/Manager/Leaves(page=${leavesPage.number + 1}, size=${leavesPage.size})}"
+            <a class="page-link" th:href="@{/Manager/Done(page=${leavesPage.number + 1}, size=${leavesPage.size})}"
                aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
             </a>

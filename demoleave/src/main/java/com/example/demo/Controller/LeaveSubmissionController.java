@@ -3,6 +3,7 @@ package com.example.demo.Controller;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
+import com.example.demo.Service.EmailService;
 import com.example.demo.Service.SubmissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,8 @@ public class LeaveSubmissionController {
     LeaveRemainService leaveremainService;
     @Autowired
     SubmissionService submissionService;
+    @Autowired
+    EmailService emailService;
 
     @GetMapping("{jobTitle}/{userID}/leaveSubmission")
     public String showLeaveForm(@PathVariable String jobTitle, @PathVariable String userID, HttpSession session) {
@@ -47,7 +50,7 @@ public class LeaveSubmissionController {
             @RequestParam String work_dissemination,
             HttpSession session, Model model
     ) {
-
+        String managerEmail = "meta0000ff@gmail.com";
         User user = (User) session.getAttribute("user");
         model.addAttribute("userId", user.getId());
         Integer userId = user.getId();
@@ -91,6 +94,7 @@ public class LeaveSubmissionController {
             LeaveRemainDTO updateRemain = submissionService.countRemain(userId, userName, year, daysDifference, annualRemain, sickRemain, compensationRemain, leaveType);
             leaveremainService.updateLeaveRemain(updateRemain);
             model.addAttribute("ApplicationStatus", "Your application has been submitted successfully.");
+            emailService.sendLeaveEmail(managerEmail, userID);
         } else {
 			model.addAttribute("ApplicationStatus", "Please check your application's start and end date.");
         }
@@ -102,4 +106,3 @@ public class LeaveSubmissionController {
 
 
 }
-

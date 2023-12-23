@@ -8,7 +8,7 @@
 </head>
 <script>
 	function validateStatus() {
-            const validStatus = ['Pending', 'Approved', 'Rejected'];
+            const validStatus = ['Applied', 'Approved', 'Rejected'];
             let status = document.getElementById('Status').value;
             let statuserror = document.getElementById('statuserror');
             statuserror.textContent = '';
@@ -16,7 +16,7 @@
                 if(validStatus.some(title => title.toLowerCase() === status.toLowerCase())) {
                     statuserror.textContent = 'Status case incorrect, please use: '+ status.charAt(0).toUpperCase() + status.slice(1).toLowerCase() + ' instead';
                 } else {
-                    statuserror.textContent = 'Invalid status. Must be one of: Pending, Approved, Rejected';
+                    statuserror.textContent = 'Invalid status. Must be one of: Applied, Approved, Rejected';
                 }
                 statuserror.style.display = 'block';
                 return false;
@@ -37,18 +37,6 @@
                 <li class="nav-item">
                     <a class="nav-link click-scroll" href="/Manager">Home</a>
                 </li>
-
-                <li class="nav-item">
-                    <a class="nav-link click-scroll" href="/Manager/Done">View History</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link click-scroll" href="/login">Login</a>
-                </li>
-                
-                <li class="nav-item">
-                    <a class="nav-link click-scroll" href="/logout">Logout</a>
-                </li>
             </ul>
         </div>
     </div>
@@ -65,7 +53,12 @@
                 <label for="userID" class="form-label">UserID</label>
                 <input type="number" id="UserID" class="form-control" th:field="*{UserID}" readonly>
             </div>
-
+			
+			<div class="mb-3">
+                <label for="UserName" class="form-label">UserName</label>
+                <input type="text" id="UserName" class="form-control" th:field="*{UserName}" readonly>
+            </div>
+            
 		    <div class="mb-3">
 		        <label for=">LeaveType" class="form-label">LeaveType</label>
 		        <input type="text" id="LeaveType" class="form-control" th:field="*{LeaveType}" readonly>
@@ -85,7 +78,7 @@
                 <label for="EndDate" class="form-label">EndDate</label>
                 <input type="date" id="EndDate" class="form-control" th:field="*{EndDate}" readonly>
             </div>
-			
+            			
 			<div class="mb-3">
                 <label for="Status" class="form-label">Status</label>
                 <input type="text" id="Status" class="form-control" th:field="*{Status}">
@@ -106,6 +99,18 @@
                 <label for="ApproveDate" class="form-label">ApproveDate</label>
                 <input type="datetime" id="ApproveDate" class="form-control" th:field="*{ApproveDate}" readonly>
             </div>
+            
+            
+            <div class="mb-3">
+                <label for="ContactDetails" class="form-label">Contact Details</label>
+                <input type="text" id="ContactDetails" class="form-control" th:field="*{ContactDetails}" readonly>
+            </div>
+            
+            <div class="mb-3">
+                <label for="WorkDissemination" class="form-label">Work Dissemination</label>
+                <input type="text" id="WorkDissemination" class="form-control" th:field="*{WorkDissemination}" readonly>
+            </div>
+            
             
             <button id="submit" type="submit" class="btn btn-primary">Update</button>
             <button id="moveback" href="/Manager" class="btn btn-primary">Return</button>

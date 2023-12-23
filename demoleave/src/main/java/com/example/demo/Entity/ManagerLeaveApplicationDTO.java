@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
+import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +13,7 @@ import lombok.Setter;
 public class ManagerLeaveApplicationDTO {
     private Integer ApplicationId;
     private Integer UserID;
+    private String UserName;
     private String LeaveType;
     private String Reason;
     private Date StartDate;
@@ -22,7 +24,12 @@ public class ManagerLeaveApplicationDTO {
     private LocalDateTime ApproveDate;
     private Integer ApproverID;
 
+    private String contactDetails;
 
+    private String workDissemination;
+    
+    private String username;
+    
     public ManagerLeaveApplicationDTO(Integer applicationId, Integer approverId) {
         ApplicationId = applicationId;
         ApproverID = approverId;

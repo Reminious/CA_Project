@@ -13,4 +13,7 @@ public interface ManagerLeaveApplicationRepository extends JpaRepository<Manager
     Page<ManagerLeaveApplication> findByApproverID(Integer approverID
     		, Pageable pageable);
     Optional<ManagerLeaveApplication> findByApplicationId(Integer id);
+    Page<ManagerLeaveApplication> findByApproverIDAndStatus(Integer managerId, String status, Pageable pageable);
+    Page<ManagerLeaveApplication> findByApproverIDAndStatusNot(Integer managerId, String status, Pageable pageable);
+
 }

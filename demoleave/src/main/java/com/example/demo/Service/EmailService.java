@@ -18,4 +18,13 @@ public class EmailService {
         msg.setText("User with ID " + userID + " has requested to reset password. Please reset password for this user.");
         javaMailSender.send(msg);
     }
+
+    public void sendLeaveEmail(String managerEmail, String userID) {
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setFrom(officialEmail);
+        msg.setTo(managerEmail);
+        msg.setSubject("Leave Application Request");
+        msg.setText("User with ID " + userID + " has requested to apply for leave. Please approve or reject this leave application.");
+        javaMailSender.send(msg);
+    }
 }

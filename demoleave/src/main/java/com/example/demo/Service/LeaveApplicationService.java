@@ -4,6 +4,7 @@ import com.example.demo.Entity.LeaveApplication;
 import com.example.demo.Entity.LeaveApplicationDTO;
 import com.example.demo.Entity.User;
 import com.example.demo.Repository.LeaveApplicationRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +31,19 @@ public class LeaveApplicationService {
     public void deleteLeaveApplication(Integer id) {
         leaveApplicationRepository.deleteById(id);
     }
+    @Transactional
+    public void updateLeaveApplication(Integer id, LeaveApplication updatedApplication) {
+        LeaveApplication leaveApplication = leaveApplicationRepository.findById(id).orElse(null);
+        if (leaveApplication != null) {
+            leaveApplication.setLeaveType(updatedApplication.getLeaveType());
+            leaveApplication.setReason(updatedApplication.getReason());
+            leaveApplication.setStartDate(updatedApplication.getStartDate());
+            leaveApplication.setEndDate(updatedApplication.getEndDate());
+            leaveApplication.setContactDetails(updatedApplication.getContactDetails());
+            leaveApplication.setWorkDissemination(updatedApplication.getWorkDissemination());
+            leaveApplicationRepository.save(leaveApplication);
+        }
+    }
 
     public Page<LeaveApplicationDTO> getLeaveApplicationByMonth(Integer year, Integer month, Pageable pageable) {
         LocalDate startOfMonth= LocalDate.of(year, month, 1);
@@ -41,6 +55,10 @@ public class LeaveApplicationService {
     public List<LeaveApplicationDTO> getLeaveApplicationForUser(Integer userId) {
         List<LeaveApplication> leaveApplications = leaveApplicationRepository.findByUser_Id(userId);
         return leaveApplications.stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
+
+    public LeaveApplication getLeaveApplicationById(Integer id) {
+        return leaveApplicationRepository.findById(id).orElse(null);
     }
     private LeaveApplicationDTO convertToDTO(LeaveApplication leaveApplication){
         LeaveApplicationDTO leaveApplicationDTO = new LeaveApplicationDTO();

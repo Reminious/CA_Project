@@ -21,7 +21,7 @@
 <br/>
 
 <table class="table table-striped table-hover table-bordered border-primary-subtle"
-	style="font-family: 'Consolas', sans-serif; width:1400px;margin-right: auto;margin-left: auto;margin-top:100px;align-content: center;">
+	style="font-family: 'Consolas', sans-serif; width:1400px;margin-right: auto;margin-left: auto;margin-top:100px;align-content: center">
     <thead class="table-secondary">
         <tr class="text-center">
             <th>Leave Type</th>
@@ -51,18 +51,21 @@
             <td th:text="${leaveApplication.approveDate}"></td>
             <td th:text="${leaveApplication.comment}"></td>
             <td th:if="${leaveApplication.status=='Approved'}">
-                <a onclick="return confirmCancel()" th:href="@{'/'+${session.user.jobTitle}+'/'+ ${session.user.id} + '/History/cancel/'+${leaveApplication.id}}">
-                    <i class="bi bi-x-circle"></i>
-                </a>
+                <form th:action="@{'/'+${session.user.jobTitle}+'/'+ ${session.user.id} + '/History/cancel'}" method="post">
+                    <input type="hidden" name="applicationId" th:value="${leaveApplication.id}" />
+                    <button type="submit" onclick="return confirmCancel()" class="border-0"><i class="bi bi-x-circle"></i></button>
+                </form>
             </td>
             <td th:if="${leaveApplication.status=='Applied'}">
-                <a th:href="@{'/'+${session.user.jobTitle}+'/'+ ${session.user.id} + '/History/'+${leaveApplication.id}+'/update'}">
-                    <i class="bi bi-arrow-up-circle"></i>
-                </a>
-                /
-                <a onclick="return confirmCancel()" th:href="@{'/'+${session.user.jobTitle}+'/'+ ${session.user.id} + '/History/cancel/'+${leaveApplication.id}}">
-                    <i class="bi bi-x-circle"></i>
-                </a>
+                <form th:action="@{'/'+${session.user.jobTitle}+'/'+ ${session.user.id} + '/History/update'}" method="post">
+                    <input type="hidden" name="applicationId" th:value="${leaveApplication.id}" />
+                    <button type="submit" class="border-0"><i class="bi bi-arrow-up-circle"></i></button>
+                </form>
+                <hr/>
+                <form th:action="@{'/'+${session.user.jobTitle}+'/'+ ${session.user.id} + '/History/cancel'}" method="post">
+                    <input type="hidden" name="applicationId" th:value="${leaveApplication.id}" />
+                    <button type="submit" onclick="return confirmCancel()" class="border-0"><i class="bi bi-x-circle"></i></button>
+                </form>
             </td>
         </tr>
     </tbody>

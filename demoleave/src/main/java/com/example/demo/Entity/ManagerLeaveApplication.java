@@ -19,9 +19,12 @@ public class ManagerLeaveApplication {
     @Column(name = "ApplicationID", nullable = false)
     private Integer applicationId;
     
-    @Column(name = "UserID", nullable = false)
-    private Integer userId;
-    //我加的
+    @ManyToOne
+    @JoinColumn(name = "UserID", referencedColumnName = "UserID", nullable = false)
+    private User user;
+    
+    @Transient
+    private String userName;
     
     @Column(name = "LeaveType", nullable = false, length = 50)
     private String leaveType;
@@ -49,5 +52,15 @@ public class ManagerLeaveApplication {
 
     @Column(name = "Comment", length = 500)
     private String comment;
+    
+    
+    @Column(name = "ContactDetails", length = 50)
+    private String contactDetails; 
 
+    @Column(name = "WorkDissemination", length = 50)
+    private String workDissemination;
+
+    //@ManyToOne
+    //@JoinColumn(name = "UserID", referencedColumnName = "UserId", nullable = false)
+    //private User user;
 }

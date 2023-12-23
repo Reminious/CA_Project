@@ -31,28 +31,27 @@ public class ManagerController {
         return "managerWelcome";
     }
 
-//上面manager登录没问题了
     @GetMapping("/Manager/Leaves")
     public String showLeaveRemain(HttpSession session,Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "8") int size){
     	User user1 = (User) session.getAttribute("user");
     	Integer id=user1.getId();
     	//System.out.println("Manager ID: " + id);
-    	Page<ManagerLeaveApplicationDTO> leavesPage=managerleaveApplicationService.getLeaveApplicationsByApproverAndManager(id,PageRequest.of(page,size));
+    	Page<ManagerLeaveApplicationDTO> leavesPage=managerleaveApplicationService.getAppliedLeaveApplicationsByApproverAndManager(id,PageRequest.of(page,size));
         model.addAttribute("leavesPage",leavesPage);
 
-        return "managerSubLeave";
+        return "manager";
     }
     
-    
+   
     @GetMapping("/Manager/Done")
     public String showDoneLeave(HttpSession session,Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "8") int size){
-    	User user1 = (User) session.getAttribute("user");
-    	Integer id=user1.getId();
-    	//System.out.println("Manager ID: " + id);
-    	Page<ManagerLeaveApplicationDTO> leavesPage=managerleaveApplicationService.getLeaveApplicationsByApproverAndManager(id,PageRequest.of(page,size));
-        model.addAttribute("leavesPage",leavesPage);
+    	User user2 = (User) session.getAttribute("user");
+    	Integer id=user2.getId();
+    	
+    	Page<ManagerLeaveApplicationDTO> leavesPage=managerleaveApplicationService.getNotAppliedLeaveApplicationsByApproverAndManager(id,PageRequest.of(page,size));
+    	model.addAttribute("leavesPage",leavesPage);
 
-        return "operateHistory";
+        return "managerOperateHistory";
     }
     
     
@@ -65,7 +64,7 @@ public class ManagerController {
             return "redirect:/Manager/Leaves";
         }
         model.addAttribute("leaveApplicationDTO", leaveApplicationDTO);
-        return "operateLeave";
+        return "managerOperateLeave";
     }
 
     @PostMapping("/operateLeave")
@@ -92,6 +91,30 @@ public class ManagerController {
         }
         return "redirect:/Manager";
     }
+    
+    
+    @GetMapping("/Manager/AllMyLeaves")
+    public String showAllMyLeaveRemain(HttpSession session,Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "8") int size){
+    	User user3 = (User) session.getAttribute("user");
+    	Integer id=user3.getId();
+    	System.out.println("Manager ID: " + id);
+    	Page<ManagerLeaveApplicationDTO> leavesPage=managerleaveApplicationService.getLeaveApplicationsByApproverAndManager(id,PageRequest.of(page,size));
+        model.addAttribute("leavesPage",leavesPage);
 
+        return "managerSearch";
+    }
+    
+    
+    
+    @GetMapping("/Manager/searchLeaves")
+    public String searchLeaves(Model model,HttpSession session,
+                              @RequestParam(required = false) String username,
+                              @RequestParam(required = false) Integer userId,
+                              @RequestParam(defaultValue = "0") int page,
+                              @RequestParam(defaultValue = "8") int size) {
+    	
+        Page<ManagerLeaveApplicationDTO> leavesPage = managerleaveApplicationService.searchLeave(username, userId,  PageRequest.of(page, size));
+        model.addAttribute("leavesPage", leavesPage);
+        return "managerSearch";
+    }
 }
-
